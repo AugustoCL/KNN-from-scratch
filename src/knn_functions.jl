@@ -21,24 +21,24 @@ end
 
 # KnnClassifier -----------------------------------------------------
 struct KnnClassifier{T<:Real, S}
-    X::Matrix{T}
-    y::Vector{S}
+    X::AbstractMatrix{T}
+    y::AbstractVector{S}
     K::Int
 
     # Internal constructor
-    function KnnClassifier(X::Matrix{T}, y::Vector{S}, K::Int) where {T<:Real, S}
+    function KnnClassifier(X::AbstractMatrix{T}, y::AbstractVector{S}, K::Int) where {T<:Real, S}
         @assert size(X, 1) == size(y, 1)
         return new{T, S}(X, y, K)
     end
 end
 
 # External constructor
-function KnnClassifier(Xv::Vector{T}, y::Vector{S}, K::Int) where {T<:Real, S}
+function KnnClassifier(Xv::AbstractVector{T}, y::AbstractVector{S}, K::Int) where {T<:Real, S}
     X = reshape(Xv, length(Xv), 1)
     return KnnClassifier(X, y, K)
 end
 
-function predict(model::KnnClassifier{T, S}, input::Vector{T}) where {T<:Real, S}
+function predict(model::KnnClassifier{T, S}, input::AbstractVector{T}) where {T<:Real, S}
     nl, nc = size(model.X, 1), size(model.X, 2)
 
     @assert size(input, 1) == nc
@@ -59,7 +59,7 @@ function predict(model::KnnClassifier{T, S}, input::Vector{T}) where {T<:Real, S
     return mode(kneighbours)
 end
 
-function predict(model::KnnClassifier{T, S}, input::Matrix{T}) where {T<:Real, S}
+function predict(model::KnnClassifier{T, S}, input::AbstractMatrix{T}) where {T<:Real, S}
     nl, nc = size(model.X, 1), size(model.X, 2)
     nli = size(input, 1)
 
@@ -90,24 +90,24 @@ end
 
 # KnnRegression -----------------------------------------------------
 struct KnnRegression{T<:Real, S<:Real}
-    X::Matrix{T}
-    y::Vector{S}
+    X::AbstractMatrix{T}
+    y::AbstractVector{S}
     K::Int
 
     # Internal constructor
-    function KnnRegression(X::Matrix{T}, y::Vector{S}, K::Int) where {T<:Real, S<:Real}
+    function KnnRegression(X::AbstractMatrix{T}, y::AbstractVector{S}, K::Int) where {T<:Real, S<:Real}
         @assert size(X, 1) == size(y, 1)
         return new{T, S}(X, y, K)
     end
 end
 
 # External constructor
-function KnnRegression(Xv::Vector{T}, y::Vector{S}, K::Int) where {T<:Real, S<:Real}
+function KnnRegression(Xv::AbstractVector{T}, y::AbstractVector{S}, K::Int) where {T<:Real, S<:Real}
     X = reshape(Xv, length(Xv), 1)
     return new{T, S}(X, y, K)
 end
 
-function predict(model::KnnRegression{T, S}, input::Vector{T}, w::Bool=false) where {T<:Real, S<:Real}
+function predict(model::KnnRegression{T, S}, input::AbstractVector{T}, w::Bool=false) where {T<:Real, S<:Real}
     nl, nc = size(model.X, 1), size(model.X, 2)
 
     @assert size(input, 1) == nc
@@ -134,7 +134,7 @@ function predict(model::KnnRegression{T, S}, input::Vector{T}, w::Bool=false) wh
 
 end
 
-function predict(model::KnnRegression{T, S}, input::Matrix{T}, w::Bool=false) where {T<:Real, S<:Real}
+function predict(model::KnnRegression{T, S}, input::AbstractMatrix{T}, w::Bool=false) where {T<:Real, S<:Real}
     nl, nc = size(model.X, 1), size(model.X, 2)
     nli = size(input, 1)
 
