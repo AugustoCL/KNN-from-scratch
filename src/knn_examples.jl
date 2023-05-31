@@ -1,5 +1,5 @@
 # package and functions ------------------------------
-using RDatasets, CSV, DataFrames, BenchmarkTools
+using RDatasets, DataFrames, BenchmarkTools
 
 include("src/knn_functions.jl")
 
